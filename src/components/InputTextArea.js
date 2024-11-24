@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'antd';
 
-function NsInputArea({ onSubmit }) {
+function NsInputArea({ onSubmit, hasGenerated }) {
   const [textValue, setTextValue] = useState('');
   
   const buttonStyle = {
@@ -24,10 +24,11 @@ function NsInputArea({ onSubmit }) {
     {"name": "Flora", "desc": "botanical names like Redwood, Yew, etc. in the category of Flora"},
     {"name": "Fantasy", "desc": "imaginary places from fantasy worlds like Narnia, Valinor, etc. in the category of Fantasy"},
     {"name": "Star Trek", "desc": "elements from Star Trek lore "}
-]
+  ];
 
-  const handleSubmit = () => {
-    onSubmit(textValue);
+  const handleTextChange = (newValue) => {
+    setTextValue(newValue);
+    onSubmit(null); // This will reset the output and hasGenerated state
   };
 
   return (
@@ -35,25 +36,30 @@ function NsInputArea({ onSubmit }) {
       <div className="mythology-buttons">
         {Array.isArray(categories) ? (
             categories.map((item, index) => (
-                <Button type="default" style={buttonStyle} onClick={() => {setTextValue(item.desc); }}>
+                <Button 
+                  key={index}
+                  type="default" 
+                  style={buttonStyle} 
+                  onClick={() => handleTextChange(item.desc)}
+                >
                     {item.name}
                 </Button>
-                ))
-            ) : (
-                <pre>Catories is not an array</pre>
-            )}
+            ))
+        ) : (
+            <pre>Categories is not an array</pre>
+        )}
       </div>
       <textarea 
         className="main-textarea"
         value={textValue}
         placeholder="characters from Greek mythology"
-        onChange={(e) => setTextValue(e.target.value)}
+        onChange={(e) => handleTextChange(e.target.value)}
       />
       <Button 
         className="submit-button"
-        onClick={handleSubmit}
+        onClick={() => onSubmit(textValue)}
       >
-        Let's Go
+        {hasGenerated ? "No good, give me more" : "Let's Go"}
       </Button>
     </div>
   );
