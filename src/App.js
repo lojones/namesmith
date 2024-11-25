@@ -26,7 +26,7 @@ function App() {
         } : {})
       };
 
-      const response = await fetch('http://localhost:5000/api/topicitems', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/topicitems`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
