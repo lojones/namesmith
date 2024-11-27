@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import NsInputArea from './components/InputTextArea';
 import OutputPanel from './components/OutputPanel';
+import NSLogo from './components/NSLogo';
 
 function App() {
   const [outputData, setOutputData] = useState(null);
@@ -10,7 +11,6 @@ function App() {
 
   const handleSubmit = async (inputText) => {
     if (inputText === null) {
-      // Reset state when text changes
       setOutputData(null);
       setHasGenerated(false);
       return;
@@ -18,7 +18,6 @@ function App() {
 
     setIsLoading(true);
     try {
-      // Create the request body based on whether we have existing items
       const requestBody = {
         topic: inputText,
         ...(hasGenerated && outputData?.items ? {
@@ -49,6 +48,7 @@ function App() {
   return (
     <div className="App">
       <div className="content-wrapper">
+        <NSLogo />
         <NsInputArea onSubmit={handleSubmit} hasGenerated={hasGenerated} />
         <OutputPanel data={outputData} isLoading={isLoading} />
       </div>

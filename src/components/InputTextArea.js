@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from 'antd';
 
 function NsInputArea({ onSubmit, hasGenerated }) {
   const [textValue, setTextValue] = useState('');
+  const submitButtonRef = useRef(null);
+  const containerRef = useRef(null);
   
   const buttonStyle = {
     backgroundColor: '#87CEFA',
@@ -29,10 +31,35 @@ function NsInputArea({ onSubmit, hasGenerated }) {
   const handleTextChange = (newValue) => {
     setTextValue(newValue);
     onSubmit(null); // This will reset the output and hasGenerated state
+
+    // Check if submit button is not visible
+    if (submitButtonRef.current) {
+      const buttonRect = submitButtonRef.current.getBoundingClientRect();
+      const isVisible = (
+        buttonRect.top >= 0 &&
+        buttonRect.bottom <= window.innerHeight
+      );
+
+      if (!isVisible) {
+        // Calculate position to scroll to (button position + extra space)
+        const extraSpace = 40; // pixels of extra space
+        const targetPosition = 
+          window.pageYOffset + 
+          buttonRect.top - 
+          window.innerHeight + 
+          buttonRect.height + 
+          extraSpace;
+
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
   };
 
   return (
-    <div className="input-area-container">
+    <div className="input-area-container" ref={containerRef}>
       <div className="mythology-buttons">
         {Array.isArray(categories) ? (
             categories.map((item, index) => (
@@ -56,10 +83,11 @@ function NsInputArea({ onSubmit, hasGenerated }) {
         onChange={(e) => handleTextChange(e.target.value)}
       />
       <Button 
+        ref={submitButtonRef}
         className="submit-button"
         onClick={() => onSubmit(textValue)}
       >
-        {hasGenerated ? "No good, give me more" : "Let's Go"}
+        {hasGenerated ? "Give me more!" : "Create!"}
       </Button>
     </div>
   );
