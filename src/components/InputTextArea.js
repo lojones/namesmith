@@ -14,7 +14,7 @@ function NsInputArea({ onSubmit, hasGenerated }) {
   };
 
   const categories = [
-    {"name": "Norse", "desc": "figures from Norse mythology"},
+    {"name": "Norse", "desc": "gods from Norse mythology"},
     {"name": "Roman", "desc": "deities from Roman legends"},
     {"name": "Greek", "desc": "characters from Greek mythology"},
     {"name": "Celtic", "desc": "deities and folklore entities from Celtic folklore"},

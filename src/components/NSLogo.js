@@ -12,6 +12,7 @@ function NSLogo() {
     letterSpacing: '2px',
     textTransform: 'uppercase',
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: '20px'
@@ -22,9 +23,19 @@ function NSLogo() {
     width: 'fit-content'
   };
 
+  const taglineStyle = {
+    fontSize: '16px',
+    color: '#999',
+    fontWeight: 'normal',
+    textTransform: 'none',
+    letterSpacing: 'normal',
+    marginTop: '5px'
+  };
+
   return (
     <div style={logoStyle}>
       <span style={textStyle}>Namesmith</span>
+      <span style={taglineStyle}>Get ideas for naming things</span>
     </div>
   );
 }
