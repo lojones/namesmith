@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Col, Row, Skeleton, Button } from 'antd';
 import { CopyTwoTone } from '@ant-design/icons';
+import LojoLinks from './LojoLinks';
 
 
 function OutputPanel({ data, isLoading }) {
@@ -29,19 +30,24 @@ function OutputPanel({ data, isLoading }) {
       });
   };
 
-  if (isLoading) return <div className="output-panel"><Skeleton active /></div>;
-  if (!data) return <div className="output-panel" />;
+  if (isLoading) return <div className="output-panel"><LojoLinks /><Skeleton active /></div>;
+  if (!data) return <div className="output-panel" ><LojoLinks /></div>;
 
   return (
     <div className="output-panel">
+      
       {data.error ? (
         <div className="error-message">{data.error}</div>
       ) : (
         <>
-          <Button onClick={handleCopy} style={{ marginBottom: 16 }}>
-            <CopyTwoTone />
-            Copy All
-          </Button>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <Button onClick={handleCopy}>
+              <CopyTwoTone />
+              Copy All
+            </Button>
+            <LojoLinks />
+          </div>
+          
           <Row gutter={[16, 16]}>
             {Array.isArray(data.items) ? (
               data.items.map((item, index) => (
@@ -60,6 +66,7 @@ function OutputPanel({ data, isLoading }) {
           </Row>
         </>
       )}
+ 
     </div>
   );
 }
